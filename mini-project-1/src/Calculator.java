@@ -88,20 +88,37 @@ public class Calculator {
         int answer;
         switch (operation) {
             case '+':
-                answer = firstNumber + secondNumber;
+                answer = addition(firstNumber, secondNumber);
                 break;
             case '-':
-                answer = firstNumber - secondNumber;
+                answer = subtraction(firstNumber, secondNumber);
                 break;
             case '*':
-                answer = firstNumber * secondNumber;
+                answer = multiplication(firstNumber, secondNumber);
                 break;
             case '/':
-                if (secondNumber == 0) throw new ArithmeticException("Cannot divide by zero");
+                answer = division(firstNumber, secondNumber);
+                break;
             default:
                 throw new IllegalStateException("Unexpected value: " + operation);
         }
         return answer;
     }
 
+    private static int addition(int firstNumber, int secondNumber) {
+        return firstNumber + secondNumber;
+    }
+
+    private static int subtraction(int firstNumber, int secondNumber) {
+        return firstNumber - secondNumber;
+    }
+
+    private static int multiplication(int firstNumber, int secondNumber) {
+        return firstNumber * secondNumber;
+    }
+
+    private static int division(int firstNumber, int secondNumber) {
+        if (secondNumber == 0) throw new ArithmeticException("Cannot divide by zero");
+        return firstNumber / secondNumber;
+    }
 }
