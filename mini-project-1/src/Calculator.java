@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Calculator {
@@ -7,28 +6,75 @@ public class Calculator {
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
+        int firstNumber, secondNumber, anotherNumber, result = 0;
+        char operation;
 
-        List<Object> history = new ArrayList<>();
-        System.out.print("Enter first number: ");
-        int firstNumber = scanner.nextInt();
-        System.out.print("Enter second number: ");
-        int secondNumber = scanner.nextInt();
-        System.out.print("Enter operation: ");
-        char operation = scanner.next().charAt(0);
-        int result = 0;
+        while (true) {
+            try {
+                System.out.print("Enter first number: ");
+                firstNumber = scanner.nextInt();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input, must be a number!");
+                scanner.nextLine();
+            }
+        }
+
+        while (true) {
+            try {
+                System.out.print("Enter second number: ");
+                secondNumber = scanner.nextInt();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input, must be a number!");
+                scanner.nextLine();
+            }
+        }
+
+        do {
+            try {
+                System.out.print("Enter an operation (+, -, *, /): ");
+                operation = scanner.next().charAt(0);
+            } catch (Exception e) {
+                System.out.println("Invalid input. Please try again.");
+                scanner.nextLine();
+                operation = '\0';
+            }
+        } while (operation != '+' && operation != '-' && operation != '*' && operation != '/');
+
         try {
             result = calculate(firstNumber, secondNumber, operation);
         } catch (ArithmeticException exception) {
             System.out.println(exception.getMessage());
         }
+
         while (true) {
             System.out.print("Do you want to calculate another number [Y/N]: ");
             char response = scanner.next().charAt(0);
             if (response == 'N' || response == 'n') break;
-            System.out.print("Enter operation: ");
-            operation = scanner.next().charAt(0);
-            System.out.print("Enter another number: ");
-            int anotherNumber = scanner.nextInt();
+
+            do {
+                try {
+                    System.out.print("Enter an operation (+, -, *, /): ");
+                    operation = scanner.next().charAt(0);
+                } catch (Exception e) {
+                    System.out.println("Invalid input. Please try again.");
+                    scanner.nextLine();
+                    operation = '\0';
+                }
+            } while (operation != '+' && operation != '-' && operation != '*' && operation != '/');
+
+            while (true) {
+                try {
+                    System.out.print("Enter another number: ");
+                    anotherNumber = scanner.nextInt();
+                    break;
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input, must be a number!");
+                    scanner.nextLine();
+                }
+            }
+
             try {
                 result = calculate(result, anotherNumber, operation);
             } catch (ArithmeticException e) {
