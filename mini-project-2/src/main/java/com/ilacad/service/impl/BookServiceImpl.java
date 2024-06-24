@@ -1,9 +1,11 @@
 package com.ilacad.service.impl;
 
 import com.ilacad.exception.BookNotFoundException;
+import com.ilacad.exception.InvalidIsbnException;
 import com.ilacad.service.BookService;
 import com.ilacad.entity.Book;
 import com.ilacad.exception.BookAlreadyExistsException;
+import org.apache.commons.validator.routines.ISBNValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,6 +16,7 @@ import java.util.Optional;
 public class BookServiceImpl implements BookService {
 
     private final List<Book> books = new ArrayList<>();
+    private final ISBNValidator isbnValidator = new ISBNValidator();
     private static final Logger log = LoggerFactory.getLogger(BookServiceImpl.class);
 
     @Override
@@ -22,6 +25,10 @@ public class BookServiceImpl implements BookService {
         if (isBookExists) {
             throw new BookAlreadyExistsException(book.getISBN());
         }
+        if (!isbnValidator.isValid(book.getISBN())) {
+            throw new InvalidIsbnException(book.getISBN());
+        }
+
         log.info("Adding book with ISBN: {}", book.getISBN());
         books.add(book);
         return book;

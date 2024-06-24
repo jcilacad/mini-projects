@@ -3,6 +3,7 @@ package com.ilacad;
 import com.ilacad.entity.Book;
 import com.ilacad.exception.BookAlreadyExistsException;
 import com.ilacad.exception.BookNotFoundException;
+import com.ilacad.exception.InvalidIsbnException;
 import com.ilacad.service.BookService;
 import com.ilacad.service.impl.BookServiceImpl;
 import org.slf4j.Logger;
@@ -100,6 +101,8 @@ public class Main {
             log.info("Book added successfully with isbn: {}", savedBook.getISBN());
         } catch (BookAlreadyExistsException e) {
             log.error("Book already exists with isbn: {}", isbn);
+        } catch (InvalidIsbnException e) {
+            log.error("Invalid isbn format for isbn: {}", isbn);
         }
     }
 
