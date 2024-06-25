@@ -25,21 +25,22 @@ public class BookServiceTest {
     @Test
     void testAddBookValidObject() {
         // given
-        /**
-         * Examples of Valid ISBN
-         * ISBN-10 - 0-306-40615-2
-         * ISBN-13 - 978-3-16-148410-0
-         */
-
-        Book book = new Book("Pride and Prejudice", "Jane Austen", "0-306-40615-2");
+        Book book1 = new Book("Pride and Prejudice", "Jane Austen", "0-306-40615-2");
+        Book book2 = new Book("Crime and Punishment", "Fyodor Dostoevsky", "978-3-16-148410-0");
 
         // when
-        Book savedBook = bookService.addBook(book);
+        Book savedBook1 = bookService.addBook(book1);
+        Book savedBook2 = bookService.addBook(book2);
+
 
         // then
-        assertEquals(book.getTitle(), savedBook.getTitle());
-        assertEquals(book.getAuthor(), savedBook.getAuthor());
-        assertEquals(book.getISBN(), savedBook.getISBN());
+        assertEquals(book1.getTitle(), savedBook1.getTitle());
+        assertEquals(book1.getAuthor(), savedBook1.getAuthor());
+        assertEquals(book1.getISBN(), savedBook1.getISBN());
+
+        assertEquals(book2.getTitle(), savedBook2.getTitle());
+        assertEquals(book2.getAuthor(), savedBook2.getAuthor());
+        assertEquals(book2.getISBN(), savedBook2.getISBN());
     }
 
     @Test
