@@ -9,6 +9,7 @@ import com.ilacad.service.impl.BookServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -24,8 +25,8 @@ public class Main {
 
     public static void main(String[] args) {
 
-        int operation;
-        do {
+        while (true) {
+            int operation;
             System.out.print("""
                                     
                     ==================================================================
@@ -35,18 +36,31 @@ public class Main {
                                     
                                     [1] Add Book
                                     [2] Search All Books
-                                    [3] Search Book by Title
-                                    [4] Search Book by Author
-                                    [5] Search Book by ISBN
+                                    [3] Search Book by ISBN
+                                    [4] Search Book/s by Title
+                                    [5] Search Book/s by Author
                                     [6] Delete Book by ISBN 
                                     [7] Exit
                                 
                     ==================================================================                                    
                     """);
             System.out.print("Choose an operation: ");
-            operation = scanner.nextInt();
+            try {
+                operation = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                log.error("Invalid operation; must be a number only.");
+                scanner.nextLine();
+                continue;
+            }
+
+            if (operation > 7 || operation < 1) {
+                log.error("Invalid operation. The input must be a number within the range of 1 to 7. Operation entered: {}.", operation);
+                continue;
+            }
+
+            if (operation == 7) break;
             process(operation);
-        } while (operation != 7);
+        }
 
         System.out.println("""
                 ===============================================
@@ -56,7 +70,6 @@ public class Main {
     }
 
     private static void process(int operation) {
-
         switch (operation) {
             case 1:
                 addBook();
@@ -65,13 +78,13 @@ public class Main {
                 findAllBooks();
                 break;
             case 3:
-                findBookByTitle();
+                findBookByIsbn();
                 break;
             case 4:
-                findBookByAuthor();
+                findBooksByTitle();
                 break;
             case 5:
-                findBookByIsbn();
+                findBooksByAuthor();
                 break;
             case 6:
                 deleteBookByIsbn();
@@ -100,9 +113,9 @@ public class Main {
             savedBook = bookService.addBook(new Book(title, author, isbn));
             log.info("Book added successfully with isbn: {}", savedBook.getISBN());
         } catch (BookAlreadyExistsException e) {
-            log.error("Book already exists with isbn: {}", isbn);
+            log.error(e.getMessage());
         } catch (InvalidIsbnException e) {
-            log.error("Invalid isbn format for isbn: {}", isbn);
+            log.error(e.getMessage());
         }
     }
 
@@ -111,32 +124,52 @@ public class Main {
                 ==================================
                             Find All Books
                 ==================================  
-                """);
-        bookService.getAllBooks()
+                \n""");
+        bookService.findAllBooks()
                 .stream()
                 .forEach(System.out::println);
     }
 
-    private static void findBookByTitle() {
+    private static void findBookByIsbn() {
+        System.out.println("""
+                ==================================
+                         Find Book by ISBN
+                ==================================  
+                \n""");
+        scanner.nextLine();
+        System.out.print("Enter ISBN: ");
+        String isbn = scanner.nextLine();
+        try {
+            System.out.println("\n");
+            Book foundBook = bookService.findBookByIsbn(isbn);
+            log.info("Book found with isbn: {}", foundBook.getISBN());
+            System.out.println(foundBook);
+        } catch (BookNotFoundException e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    private static void findBooksByTitle() {
         System.out.println("""
                 ==================================
                          Find Book/s by Title
                 ==================================  
-                """);
+                \n""");
         scanner.nextLine();
         System.out.print("Enter title: ");
         String title = scanner.nextLine();
         try {
-            List<Book> foundBooks = bookService.findBookByTitle(title);
+            List<Book> foundBooks = bookService.findBooksByTitle(title);
             log.info("Book/s found with title: {}", title);
+            System.out.println("\n");
             foundBooks.stream()
                     .forEach(System.out::println);
         } catch (BookNotFoundException e) {
-            log.error("Book/s not found with with title: {}", title);
+            log.error(e.getMessage());
         }
     }
 
-    private static void findBookByAuthor() {
+    private static void findBooksByAuthor() {
         System.out.println("""
                 ==================================
                          Find Book/s by Author
@@ -146,29 +179,13 @@ public class Main {
         System.out.print("Enter author: ");
         String author = scanner.nextLine();
         try {
-            List<Book> foundBooks = bookService.findBookByAuthor(author);
+            List<Book> foundBooks = bookService.findBooksByAuthor(author);
             log.info("Book/s found with author: {}", author);
+            System.out.println("\n");
             foundBooks.stream()
                     .forEach(System.out::println);
         } catch (BookNotFoundException e) {
-            log.error("Book/s not found with author: {}", author);
-        }
-    }
-
-    private static void findBookByIsbn() {
-        System.out.println("""
-                ==================================
-                         Find Book by ISBN
-                ==================================  
-                """);
-        scanner.nextLine();
-        System.out.print("Enter ISBN: ");
-        String isbn = scanner.nextLine();
-        try {
-            Book foundBook = bookService.findBookByIsbn(isbn);
-            log.info("Book found with isbn: {}", foundBook.getISBN());
-        } catch (BookNotFoundException e) {
-            log.error("Book not found with isbn: {}", isbn);
+            log.error(e.getMessage());
         }
     }
 
@@ -185,7 +202,7 @@ public class Main {
             bookService.deleteBook(isbn);
             log.info("Book deleted successfully with isbn: {}", isbn);
         } catch (BookNotFoundException e) {
-            log.error("Book not found with isbn: {}", isbn);
+            log.error(e.getMessage());
         }
     }
 }
