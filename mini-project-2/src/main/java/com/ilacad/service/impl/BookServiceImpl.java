@@ -35,38 +35,13 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> findBookByTitle(String title) {
-        log.info("Finding book/s with title: {}", title);
-        Optional<Book> foundBook = books.stream()
-                .filter(book -> book.getTitle().equalsIgnoreCase(title))
-                .findAny();
-
-        if (foundBook.isEmpty()) {
-            throw new BookNotFoundException("title", title);
-        }
-        return books.stream()
-                .filter(book -> book.getTitle().equalsIgnoreCase(title))
-                .toList();
-    }
-
-    @Override
-    public List<Book> findBookByAuthor(String author) {
-        log.info("Finding book/s with author: {}", author);
-        Optional<Book> foundBook = books.stream()
-                .filter(book -> book.getAuthor().equalsIgnoreCase(author))
-                .findAny();
-
-        if (foundBook.isEmpty()) {
-            throw new BookNotFoundException("author", author);
-        }
-        return books.stream()
-                .filter(book -> book.getAuthor().equalsIgnoreCase(author))
-                .toList();
+    public List<Book> findAllBooks() {
+        log.info("Finding all books");
+        return books;
     }
 
     @Override
     public Book findBookByIsbn(String isbn) {
-        log.info("Finding book with ISBN: {}", isbn);
         Optional<Book> foundBook = books.stream()
                 .filter(book -> book.getISBN().equalsIgnoreCase(isbn))
                 .findAny();
@@ -74,6 +49,8 @@ public class BookServiceImpl implements BookService {
         if (foundBook.isEmpty()) {
             throw new BookNotFoundException("isbn", isbn);
         }
+
+        log.info("Finding book with ISBN: {}", isbn);
         return books.stream()
                 .filter(book -> book.getISBN().equalsIgnoreCase(isbn))
                 .findAny()
@@ -81,17 +58,45 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public List<Book> findBooksByTitle(String title) {
+        Optional<Book> foundBook = books.stream()
+                .filter(book -> book.getTitle().equalsIgnoreCase(title))
+                .findAny();
+
+        if (foundBook.isEmpty()) {
+            throw new BookNotFoundException("title", title);
+        }
+
+        log.info("Finding book/s with title: {}", title);
+        return books.stream()
+                .filter(book -> book.getTitle().equalsIgnoreCase(title))
+                .toList();
+    }
+
+    @Override
+    public List<Book> findBooksByAuthor(String author) {
+        Optional<Book> foundBook = books.stream()
+                .filter(book -> book.getAuthor().equalsIgnoreCase(author))
+                .findAny();
+
+        if (foundBook.isEmpty()) {
+            throw new BookNotFoundException("author", author);
+        }
+
+        log.info("Finding book/s with author: {}", author);
+        return books.stream()
+                .filter(book -> book.getAuthor().equalsIgnoreCase(author))
+                .toList();
+    }
+
+    @Override
     public void deleteBook(String isbn) {
-        log.info("Deleting book with ISBN: {}", isbn);
         Book foundBook = books.stream()
                 .filter(book -> book.getISBN().equalsIgnoreCase(isbn))
                 .findAny()
                 .orElseThrow(() -> new BookNotFoundException("isbn", isbn));
-        books.remove(foundBook);
-    }
 
-    @Override
-    public List<Book> getAllBooks() {
-        return books;
+        log.info("Deleting book with ISBN: {}", isbn);
+        books.remove(foundBook);
     }
 }

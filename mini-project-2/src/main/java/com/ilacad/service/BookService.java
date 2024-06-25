@@ -8,13 +8,13 @@ public interface BookService {
 
     Book addBook(Book book);
 
-    List<Book> findBookByTitle(String title);
-
-    List<Book> findBookByAuthor(String author);
+    List<Book> findAllBooks();
 
     Book findBookByIsbn(String isbn);
 
-    void deleteBook(String isbn);
+    List<Book> findBooksByTitle(String title);
 
-    List<Book> getAllBooks();
+    List<Book> findBooksByAuthor(String author);
+
+    void deleteBook(String isbn);
 }
