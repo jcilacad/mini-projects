@@ -45,3 +45,10 @@ mvn clean install exec:java
 - `exception` Package: Customized exceptions are located here.
 - `service` Pacakge: Contains the business logic of the application.
 - `Main` Class: The entry point of the program.
+
+## Run unit tests
+
+Use the following command to run the unit tests:
+```bash
+mvn verify
+```
