@@ -31,14 +31,13 @@ mvn clean install exec:java
 
 ## Usage
 
-- Add books: Use the `addBook` method.
-- Get a list of all books: Use the `findAllBooks` method.
-- Find book/s: Use the following options:
-    2) Find Book/s by Title
-    3) Find Book/s by Author
-    4) Find Book by ISBN
-- Remove book: Use the `deleteBook` method.
-
+- **Add books**: Use the `addBook` method.
+- **Get a list of all books**: Use the `findAllBooks` method.
+- **Find book/s**: Use the following options:
+    1) Find Book/s by Title
+    2) Find Book/s by Author
+    3) Find Book by ISBN
+- **Remove book**: Use the `deleteBook` method.
 
 ## Project Structure
 
