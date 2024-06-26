@@ -104,6 +104,82 @@ public class BookServiceTest {
     }
 
     @Test
+    void testFindBooksByFieldTitleValid() {
+        // given
+        Book book1 = new Book("Pride and Prejudice", "Jane Austen", "0-306-40615-2");
+        bookService.addBook(book1);
+
+        Book book2 = new Book("Pride and Prejudice", "Fyodor Dostoevsky", "978-3-16-148410-0");
+        bookService.addBook(book2);
+
+        // when
+        List<Book> foundBooks = bookService.findBooksByField("title", "Pride and Prejudice");
+
+        // then
+        assertEquals(2, foundBooks.size());
+        assertEquals("Pride and Prejudice", foundBooks.get(0).getTitle());
+        assertEquals("Jane Austen", foundBooks.get(0).getAuthor());
+        assertEquals("0-306-40615-2", foundBooks.get(0).getISBN());
+        assertEquals("Pride and Prejudice", foundBooks.get(1).getTitle());
+        assertEquals("Fyodor Dostoevsky", foundBooks.get(1).getAuthor());
+        assertEquals("978-3-16-148410-0", foundBooks.get(1).getISBN());
+    }
+
+    @Test
+    void testFindBooksByFieldAuthorValid() {
+        // given
+        Book book1 = new Book("Pride and Prejudice", "Jane Austen", "0-306-40615-2");
+        bookService.addBook(book1);
+
+        Book book2 = new Book("Crime and Punishment", "Jane Austen", "978-3-16-148410-0");
+        bookService.addBook(book2);
+
+        // when
+        List<Book> foundBooks = bookService.findBooksByField("author", "Jane Austen");
+
+        // then
+        assertEquals(2, foundBooks.size());
+        assertEquals("Pride and Prejudice", foundBooks.get(0).getTitle());
+        assertEquals("Jane Austen", foundBooks.get(0).getAuthor());
+        assertEquals("0-306-40615-2", foundBooks.get(0).getISBN());
+        assertEquals("Crime and Punishment", foundBooks.get(1).getTitle());
+        assertEquals("Jane Austen", foundBooks.get(1).getAuthor());
+        assertEquals("978-3-16-148410-0", foundBooks.get(1).getISBN());
+    }
+
+    @Test
+    void testFindBooksByFieldNotFound() {
+        // given
+        Book book1 = new Book("Pride and Prejudice", "Jane Austen", "0-306-40615-2");
+        bookService.addBook(book1);
+
+        Book book2 = new Book("Crime and Punishment", "Jane Austen", "978-3-16-148410-0");
+        bookService.addBook(book2);
+
+        // when
+        Executable executable = () -> bookService.findBooksByField("author", "John Doe");
+
+        // then
+        assertThrows(BookNotFoundException.class, executable);
+    }
+
+    @Test
+    void testFindBooksByFieldInvalidField() {
+        // given
+        Book book1 = new Book("Pride and Prejudice", "Jane Austen", "0-306-40615-2");
+        bookService.addBook(book1);
+
+        Book book2 = new Book("Crime and Punishment", "Jane Austen", "978-3-16-148410-0");
+        bookService.addBook(book2);
+
+        // when
+        Executable executable = () -> bookService.findBooksByField("Invalid Field", "John Doe");
+
+        // then
+        assertThrows(IllegalArgumentException.class, executable);
+    }
+
+    @Test
     void testFindBookByIsbnNotFound() {
         // given
         String nonExistentIsbn = "978-3-16-148410-0";
@@ -112,59 +188,6 @@ public class BookServiceTest {
 
         // when
         Executable executable = () -> bookService.findBookByIsbn(nonExistentIsbn);
-
-        // then
-        assertThrows(BookNotFoundException.class, executable);
-    }
-
-    @Test
-    void testFindBooksByTitleValid() {
-        // given
-        Book book1 = new Book("Pride and Prejudice", "Jane Austen", "0-306-40615-2");
-        Book book2 = new Book("Pride and Prejudice", "Jane Doe", "978-3-16-148410-0");
-        bookService.addBook(book1);
-        bookService.addBook(book2);
-
-        // when
-        List<Book> existingBook = bookService.findBooksByTitle("Pride and Prejudice");
-
-        // then
-        assertEquals(2, existingBook.size());
-        assertEquals("Pride and Prejudice", existingBook.get(0).getTitle());
-        assertEquals("Jane Austen", existingBook.get(0).getAuthor());
-        assertEquals("0-306-40615-2", existingBook.get(0).getISBN());
-        assertEquals("Pride and Prejudice", existingBook.get(1).getTitle());
-        assertEquals("Jane Doe", existingBook.get(1).getAuthor());
-        assertEquals("978-3-16-148410-0", existingBook.get(1).getISBN());
-    }
-
-    @Test
-    void testFindBooksByTitleNotFound() {
-        // given
-        String nonExistentTitle = "Non Existent Title";
-        Book book1 = new Book("Pride and Prejudice", "Jane Austen", "0-306-40615-2");
-        Book book2 = new Book("Pride and Prejudice", "Jane Doe", "978-3-16-148410-0");
-        bookService.addBook(book1);
-        bookService.addBook(book2);
-
-        // when
-        Executable executable = () -> bookService.findBooksByTitle(nonExistentTitle);
-
-        // then
-        assertThrows(BookNotFoundException.class, executable);
-    }
-
-    @Test
-    void testFindBooksByAuthorValid() {
-        // given
-        String nonExistentAuthor = "Non Existent Author";
-        Book book1 = new Book("Pride and Prejudice", "Jane Austen", "0-306-40615-2");
-        Book book2 = new Book("Pride and Prejudice", "Jane Doe", "978-3-16-148410-0");
-        bookService.addBook(book1);
-        bookService.addBook(book2);
-
-        // when
-        Executable executable = () -> bookService.findBooksByAuthor(nonExistentAuthor);
 
         // then
         assertThrows(BookNotFoundException.class, executable);

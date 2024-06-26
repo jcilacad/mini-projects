@@ -6,6 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="61a3bba8-0852-4594-9e14-4a078c66fec0" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ilacad/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ilacad/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ilacad/entity/Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ilacad/entity/Book.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ilacad/service/BookService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ilacad/service/BookService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ilacad/service/impl/BookServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ilacad/service/impl/BookServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/service/BookServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/service/BookServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -33,39 +38,57 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Application.com.ilacad.Main.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.BookAlreadyExistsExceptionTest.testBookAlreadyExistsException.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.BookNotFoundExceptionTest.testBookNotFoundException.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.BookServiceTest.givenInvalidIsbn_whenAddBook_thenThrowInvalidIsbnException.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.BookServiceTest.givenValidBookObject_whenAddBook_thenReturnBookObject.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.BookServiceTest.testAddBookAlreadyExists.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.BookServiceTest.testAddBookValidObject.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.BookServiceTest.testDeleteBook.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.BookServiceTest.testDeleteBookNotFound.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.BookServiceTest.testFindAllBooks.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.BookServiceTest.testFindBookByIsbn.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.BookServiceTest.testFindBookByIsbnNotFound.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.BookServiceTest.testFindBookByTitle.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.BookServiceTest.testFindBooksByAuthor.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.BookServiceTest.testFindBooksByTitleNotFound.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.BookTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.BookTest.testAllArgsConstructor.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.InvalidIsbnExceptionTest.testInvalidIsbnException.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.InvalidOperationExceptionTest.testInvalidOperationException.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Christopher Ilacad/Desktop/e-commerce&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "Application.com.ilacad.Main.executor": "Run",
+    "JUnit.BookAlreadyExistsExceptionTest.testBookAlreadyExistsException.executor": "Run",
+    "JUnit.BookNotFoundExceptionTest.testBookNotFoundException.executor": "Run",
+    "JUnit.BookServiceTest.executor": "Run",
+    "JUnit.BookServiceTest.givenInvalidIsbn_whenAddBook_thenThrowInvalidIsbnException.executor": "Run",
+    "JUnit.BookServiceTest.givenValidBookObject_whenAddBook_thenReturnBookObject.executor": "Run",
+    "JUnit.BookServiceTest.testAddBookAlreadyExists.executor": "Run",
+    "JUnit.BookServiceTest.testAddBookValidObject.executor": "Run",
+    "JUnit.BookServiceTest.testDeleteBook.executor": "Run",
+    "JUnit.BookServiceTest.testDeleteBookNotFound.executor": "Run",
+    "JUnit.BookServiceTest.testFindAllBooks.executor": "Run",
+    "JUnit.BookServiceTest.testFindBookByIsbn.executor": "Run",
+    "JUnit.BookServiceTest.testFindBookByIsbnNotFound.executor": "Run",
+    "JUnit.BookServiceTest.testFindBookByIsbnValid.executor": "Run",
+    "JUnit.BookServiceTest.testFindBookByTitle.executor": "Run",
+    "JUnit.BookServiceTest.testFindBooksByAuthor.executor": "Run",
+    "JUnit.BookServiceTest.testFindBooksByFieldNotFound.executor": "Run",
+    "JUnit.BookServiceTest.testFindBooksByTitleNotFound.executor": "Run",
+    "JUnit.BookTest.executor": "Run",
+    "JUnit.BookTest.testAllArgsConstructor.executor": "Run",
+    "JUnit.InvalidIsbnExceptionTest.testInvalidIsbnException.executor": "Run",
+    "JUnit.InvalidOperationExceptionTest.testInvalidOperationException.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Christopher Ilacad/Desktop/e-commerce",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
-}</component>
-  <component name="RunManager" selected="JUnit.BookServiceTest.testAddBookValidObject">
+}]]></component>
+  <component name="RunManager" selected="JUnit.BookServiceTest.testFindBooksByFieldInvalidField">
+    <configuration name="BookServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="mini-project-2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="service" />
+      <option name="MAIN_CLASS_NAME" value="service.BookServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="BookServiceTest.testAddBookValidObject" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="mini-project-2" />
       <extension name="coverage">
@@ -82,7 +105,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="BookServiceTest.testDeleteBook" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="BookServiceTest.testFindBookByIsbnValid" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="mini-project-2" />
       <extension name="coverage">
         <pattern>
@@ -92,13 +115,13 @@
       </extension>
       <option name="PACKAGE_NAME" value="service" />
       <option name="MAIN_CLASS_NAME" value="service.BookServiceTest" />
-      <option name="METHOD_NAME" value="testDeleteBook" />
+      <option name="METHOD_NAME" value="testFindBookByIsbnValid" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="BookServiceTest.testDeleteBookNotFound" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="BookServiceTest.testFindBooksByFieldInvalidField" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="mini-project-2" />
       <extension name="coverage">
         <pattern>
@@ -108,38 +131,23 @@
       </extension>
       <option name="PACKAGE_NAME" value="service" />
       <option name="MAIN_CLASS_NAME" value="service.BookServiceTest" />
-      <option name="METHOD_NAME" value="testDeleteBookNotFound" />
+      <option name="METHOD_NAME" value="testFindBooksByFieldInvalidField" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="BookTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="BookServiceTest.testFindBooksByFieldNotFound" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="mini-project-2" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="entity.*" />
+          <option name="PATTERN" value="service.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="entity" />
-      <option name="MAIN_CLASS_NAME" value="entity.BookTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="InvalidOperationExceptionTest.testInvalidOperationException" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="mini-project-2" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="exception.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="exception" />
-      <option name="MAIN_CLASS_NAME" value="exception.InvalidOperationExceptionTest" />
-      <option name="METHOD_NAME" value="testInvalidOperationException" />
+      <option name="PACKAGE_NAME" value="service" />
+      <option name="MAIN_CLASS_NAME" value="service.BookServiceTest" />
+      <option name="METHOD_NAME" value="testFindBooksByFieldNotFound" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -147,11 +155,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.BookServiceTest.testFindBooksByFieldInvalidField" />
+        <item itemvalue="JUnit.BookServiceTest.testFindBooksByFieldNotFound" />
+        <item itemvalue="JUnit.BookServiceTest" />
+        <item itemvalue="JUnit.BookServiceTest.testFindBookByIsbnValid" />
         <item itemvalue="JUnit.BookServiceTest.testAddBookValidObject" />
-        <item itemvalue="JUnit.InvalidOperationExceptionTest.testInvalidOperationException" />
-        <item itemvalue="JUnit.BookTest" />
-        <item itemvalue="JUnit.BookServiceTest.testDeleteBookNotFound" />
-        <item itemvalue="JUnit.BookServiceTest.testDeleteBook" />
       </list>
     </recent_temporary>
   </component>

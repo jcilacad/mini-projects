@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.function.Predicate;
 
 public class BookServiceImpl implements BookService {
 
@@ -42,14 +42,6 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book findBookByIsbn(String isbn) {
-        Optional<Book> foundBook = books.stream()
-                .filter(book -> book.getISBN().equalsIgnoreCase(isbn))
-                .findAny();
-
-        if (foundBook.isEmpty()) {
-            throw new BookNotFoundException("isbn", isbn);
-        }
-
         log.info("Finding book with ISBN: {}", isbn);
         return books.stream()
                 .filter(book -> book.getISBN().equalsIgnoreCase(isbn))
@@ -58,35 +50,30 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> findBooksByTitle(String title) {
-        Optional<Book> foundBook = books.stream()
-                .filter(book -> book.getTitle().equalsIgnoreCase(title))
-                .findAny();
+    public List<Book> findBooksByField(String field, String value) {
+        Predicate<Book> filterPredicate;
 
-        if (foundBook.isEmpty()) {
-            throw new BookNotFoundException("title", title);
+        switch (field.toLowerCase()) {
+            case "title":
+                filterPredicate = book -> book.getTitle().equalsIgnoreCase(value);
+                break;
+            case "author":
+                filterPredicate = book -> book.getAuthor().equalsIgnoreCase(value);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid field: " + field);
         }
 
-        log.info("Finding book/s with title: {}", title);
-        return books.stream()
-                .filter(book -> book.getTitle().equalsIgnoreCase(title))
+        List<Book> filteredBooks = books.stream()
+                .filter(filterPredicate)
                 .toList();
-    }
 
-    @Override
-    public List<Book> findBooksByAuthor(String author) {
-        Optional<Book> foundBook = books.stream()
-                .filter(book -> book.getAuthor().equalsIgnoreCase(author))
-                .findAny();
-
-        if (foundBook.isEmpty()) {
-            throw new BookNotFoundException("author", author);
+        if (filteredBooks.isEmpty()) {
+            throw new BookNotFoundException(field, value);
         }
 
-        log.info("Finding book/s with author: {}", author);
-        return books.stream()
-                .filter(book -> book.getAuthor().equalsIgnoreCase(author))
-                .toList();
+        log.info("Finding book/s with {}: {}", field, value);
+        return filteredBooks;
     }
 
     @Override
