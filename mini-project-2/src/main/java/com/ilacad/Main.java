@@ -160,7 +160,7 @@ public class Main {
                               
                     \n""");
 
-            System.out.print("Choose an operation (1 or 2): ");
+            System.out.print("Choose an operation (1-3): ");
             try {
                 operation = scanner.nextInt();
             } catch (InputMismatchException e) {
