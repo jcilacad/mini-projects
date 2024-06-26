@@ -37,10 +37,9 @@ public class Main {
                                     [1] Add Book
                                     [2] Search All Books
                                     [3] Search Book by ISBN
-                                    [4] Search Book/s by Title
-                                    [5] Search Book/s by Author
-                                    [6] Delete Book by ISBN 
-                                    [7] Exit
+                                    [4] Search Book/s by Title/Author
+                                    [5] Delete Book by ISBN 
+                                    [6] Exit
                                 
                     ==================================================================                                    
                     """);
@@ -53,12 +52,12 @@ public class Main {
                 continue;
             }
 
-            if (operation > 7 || operation < 1) {
+            if (operation > 6 || operation < 1) {
                 log.error("Invalid operation. The input must be a number within the range of 1 to 7. Operation entered: {}.", operation);
                 continue;
             }
 
-            if (operation == 7) break;
+            if (operation == 6) break;
             process(operation);
         }
 
@@ -81,12 +80,9 @@ public class Main {
                 findBookByIsbn();
                 break;
             case 4:
-                findBooksByTitle();
+                findBooksByField();
                 break;
             case 5:
-                findBooksByAuthor();
-                break;
-            case 6:
                 deleteBookByIsbn();
                 break;
             default:
@@ -149,43 +145,54 @@ public class Main {
         }
     }
 
-    private static void findBooksByTitle() {
-        System.out.println("""
-                ==================================
-                         Find Book/s by Title
-                ==================================  
-                \n""");
-        scanner.nextLine();
-        System.out.print("Enter title: ");
-        String title = scanner.nextLine();
-        try {
-            List<Book> foundBooks = bookService.findBooksByTitle(title);
-            log.info("Book/s found with title: {}", title);
-            System.out.println("\n");
-            foundBooks.stream()
-                    .forEach(System.out::println);
-        } catch (BookNotFoundException e) {
-            log.error(e.getMessage());
-        }
-    }
+    private static void findBooksByField() {
+        int operation;
+        StringBuilder field = new StringBuilder();
+        while (true) {
+            System.out.println("""
+                    ==================================
+                             Find Book/s by Field
+                    ==================================
+                                    
+                                [1] Title
+                                [2] Author
+                                [3] Exit
+                              
+                    \n""");
 
-    private static void findBooksByAuthor() {
-        System.out.println("""
-                ==================================
-                         Find Book/s by Author
-                ==================================  
-                """);
-        scanner.nextLine();
-        System.out.print("Enter author: ");
-        String author = scanner.nextLine();
-        try {
-            List<Book> foundBooks = bookService.findBooksByAuthor(author);
-            log.info("Book/s found with author: {}", author);
-            System.out.println("\n");
-            foundBooks.stream()
-                    .forEach(System.out::println);
-        } catch (BookNotFoundException e) {
-            log.error(e.getMessage());
+            System.out.print("Choose an operation (1 or 2): ");
+            try {
+                operation = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                log.error("Invalid operation; must be a number only.");
+                scanner.nextLine();
+                continue;
+            }
+
+            if (operation > 3 || operation < 1) {
+                log.error("Invalid operation. The input must be a number within the range of 1 to 3. Operation entered: {}.", operation);
+                continue;
+            }
+
+            if (operation == 3) break;
+
+            if (operation == 1) field.append("title");
+            else if (operation == 2) field.append("author");
+
+            scanner.nextLine();
+            System.out.print("Enter value: ");
+            String value = scanner.nextLine();
+            try {
+                List<Book> foundBooks = bookService.findBooksByField(field.toString(), value);
+                log.info("Book/s found with {}: {}", field, value);
+                System.out.println("\n");
+                foundBooks.stream()
+                        .forEach(System.out::println);
+                field.setLength(0);
+            } catch (BookNotFoundException e) {
+                field.setLength(0);
+                log.error(e.getMessage());
+            }
         }
     }
 
