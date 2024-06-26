@@ -5,13 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="61a3bba8-0852-4594-9e14-4a078c66fec0" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/ilacad/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ilacad/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ilacad/entity/Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ilacad/entity/Book.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ilacad/service/BookService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ilacad/service/BookService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ilacad/service/impl/BookServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ilacad/service/impl/BookServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/service/BookServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/service/BookServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,6 +51,7 @@
     "JUnit.BookServiceTest.testFindBookByIsbnValid.executor": "Run",
     "JUnit.BookServiceTest.testFindBookByTitle.executor": "Run",
     "JUnit.BookServiceTest.testFindBooksByAuthor.executor": "Run",
+    "JUnit.BookServiceTest.testFindBooksByFieldInvalidField.executor": "Run",
     "JUnit.BookServiceTest.testFindBooksByFieldNotFound.executor": "Run",
     "JUnit.BookServiceTest.testFindBooksByTitleNotFound.executor": "Run",
     "JUnit.BookTest.executor": "Run",
