@@ -32,12 +32,10 @@ public class BookServiceTest {
         Book savedBook1 = bookService.addBook(book1);
         Book savedBook2 = bookService.addBook(book2);
 
-
         // then
         assertEquals(book1.getTitle(), savedBook1.getTitle());
         assertEquals(book1.getAuthor(), savedBook1.getAuthor());
         assertEquals(book1.getISBN(), savedBook1.getISBN());
-
         assertEquals(book2.getTitle(), savedBook2.getTitle());
         assertEquals(book2.getAuthor(), savedBook2.getAuthor());
         assertEquals(book2.getISBN(), savedBook2.getISBN());
@@ -91,7 +89,7 @@ public class BookServiceTest {
     }
 
     @Test
-    void testFindBookByIsbn() {
+    void testFindBookByIsbnValid() {
         // given
         Book book = new Book("Pride and Prejudice", "Jane Austen", "0-306-40615-2");
         bookService.addBook(book);
@@ -120,7 +118,7 @@ public class BookServiceTest {
     }
 
     @Test
-    void testFindBooksByTitle() {
+    void testFindBooksByTitleValid() {
         // given
         Book book1 = new Book("Pride and Prejudice", "Jane Austen", "0-306-40615-2");
         Book book2 = new Book("Pride and Prejudice", "Jane Doe", "978-3-16-148410-0");
@@ -157,7 +155,7 @@ public class BookServiceTest {
     }
 
     @Test
-    void testFindBooksByAuthor() {
+    void testFindBooksByAuthorValid() {
         // given
         String nonExistentAuthor = "Non Existent Author";
         Book book1 = new Book("Pride and Prejudice", "Jane Austen", "0-306-40615-2");
@@ -173,7 +171,7 @@ public class BookServiceTest {
     }
 
     @Test
-    void testDeleteBook() {
+    void testDeleteBookValid() {
         // given
         Book book = new Book("Pride and Prejudice", "Jane Austen", "0-306-40615-2");
         bookService.addBook(book);

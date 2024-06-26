@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="61a3bba8-0852-4594-9e14-4a078c66fec0" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/service/BookServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/service/BookServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,6 +42,7 @@
     &quot;JUnit.BookServiceTest.givenInvalidIsbn_whenAddBook_thenThrowInvalidIsbnException.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.BookServiceTest.givenValidBookObject_whenAddBook_thenReturnBookObject.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.BookServiceTest.testAddBookAlreadyExists.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.BookServiceTest.testAddBookValidObject.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.BookServiceTest.testDeleteBook.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.BookServiceTest.testDeleteBookNotFound.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.BookServiceTest.testFindAllBooks.executor&quot;: &quot;Run&quot;,
