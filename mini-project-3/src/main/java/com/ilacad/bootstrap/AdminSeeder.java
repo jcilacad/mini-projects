@@ -12,7 +12,7 @@ public class AdminSeeder {
 
     public void createAdmin() {
         String adminEmail = "john@admin.com";
-        if (userDao.isUserFoundByEmail(adminEmail)) {
+        if (!userDao.isUserFoundByEmail(adminEmail)) {
             User user = new User();
             user.setFirstName("John Christopher");
             user.setLastName("Ilacad");

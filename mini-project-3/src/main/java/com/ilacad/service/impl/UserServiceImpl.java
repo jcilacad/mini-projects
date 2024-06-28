@@ -5,6 +5,7 @@ import com.ilacad.dto.request.LoginRequest;
 import com.ilacad.dto.request.RegisterRequest;
 import com.ilacad.dto.response.LoginResponse;
 import com.ilacad.dto.response.RegisterResponse;
+import com.ilacad.entity.Cart;
 import com.ilacad.entity.User;
 import com.ilacad.enums.Role;
 import com.ilacad.exception.*;
@@ -28,17 +29,16 @@ public class UserServiceImpl implements UserService {
     private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
     protected Validator validator = factory.getValidator();
 
-
     @Override
     public RegisterResponse register(RegisterRequest registerRequest) {
         Set<ConstraintViolation<RegisterRequest>> violations = validator.validate(registerRequest);
         if (!violations.isEmpty()) {
             Map<String, String> errors = new HashMap<>();
-            for (ConstraintViolation<RegisterRequest> violation : violations) {
-                String fieldName = violation.getPropertyPath().toString();
-                String errorMessage = violation.getMessage();
+            violations.forEach(v -> {
+                String fieldName = v.getPropertyPath().toString();
+                String errorMessage = v.getMessage();
                 errors.put(fieldName, errorMessage);
-            }
+            });
             throw new InvalidInputException(errors);
         }
 
@@ -52,6 +52,8 @@ public class UserServiceImpl implements UserService {
 
         User user = UserMapper.INSTANCE.registerRequestToUser(registerRequest);
         user.setRole(Role.USER);
+        Cart cart = new Cart();
+        user.setCart(cart);
         User savedUser = userDao.insertUser(user);
         return UserMapper.INSTANCE.userToRegisterResponse(savedUser);
     }
@@ -69,4 +71,6 @@ public class UserServiceImpl implements UserService {
 
         return UserMapper.INSTANCE.userToLoginResponse(existingUser);
     }
+
+
 }
