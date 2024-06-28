@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.*;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -52,6 +53,7 @@ public class UserServiceImpl implements UserService {
 
         User user = UserMapper.INSTANCE.registerRequestToUser(registerRequest);
         user.setRole(Role.USER);
+        user.setCredits(BigDecimal.ZERO);
         Cart cart = new Cart();
         user.setCart(cart);
         User savedUser = userDao.insertUser(user);

@@ -5,6 +5,7 @@ import com.ilacad.entity.Product;
 import com.ilacad.service.CartService;
 import lombok.RequiredArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -22,5 +23,13 @@ public class CartController {
 
     public void removeProductFromCart(String userEmail, Long productId, int numberOfItems) {
         cartService.removeProductFromCart(userEmail, productId, numberOfItems);
+    }
+
+    public void addCredits(String userEmail, BigDecimal credits) {
+        cartService.updateCredits(userEmail, credits);
+    }
+
+    public void checkout(String userEmail, BigDecimal[] credits) {
+        cartService.checkout(userEmail, credits);
     }
 }

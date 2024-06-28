@@ -2,6 +2,7 @@ package com.ilacad.dao.impl;
 
 import com.ilacad.dao.UserDao;
 import com.ilacad.entity.User;
+import com.ilacad.exception.UserNotFoundException;
 import com.ilacad.util.Hashing;
 import com.ilacad.util.JPAUtil;
 import jakarta.persistence.EntityManager;
@@ -9,6 +10,7 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 public class UserDaoImpl implements UserDao {
@@ -68,6 +70,26 @@ public class UserDaoImpl implements UserDao {
             return Optional.empty();
         } finally {
             entityManager.getTransaction().commit();
+            entityManager.close();
+        }
+    }
+
+    @Override
+    public void updateCredits(Long userId, BigDecimal newCredits) {
+        EntityManager entityManager = JPAUtil.getEntityManagerFactory().createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        try {
+            entityTransaction.begin();
+            User existingUser = entityManager.find(User.class, userId);
+            if (existingUser == null) {
+                throw new UserNotFoundException(existingUser.getEmail());
+            }
+            existingUser.setCredits(newCredits);
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            entityTransaction.rollback();
+            throw new RuntimeException("Error updating user: " + e.getMessage());
+        } finally {
             entityManager.close();
         }
     }

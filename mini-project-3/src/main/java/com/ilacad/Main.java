@@ -98,18 +98,20 @@ public class Main {
         }
     }
 
-    private static void userView(LoginResponse loginResponse) {
-        String email = loginResponse.getEmail();
-        String firstName = loginResponse.getFirstName();
-        String lastName = loginResponse.getLastName();
-        String role = loginResponse.getRole().name();
+    private static void userView(LoginRequest loginRequest) {
         while (true) {
+            LoginResponse loginResponse = authenticationController.login(loginRequest);
+            String email = loginResponse.getEmail();
+            String firstName = loginResponse.getFirstName();
+            String lastName = loginResponse.getLastName();
+            String role = loginResponse.getRole().name();
+            BigDecimal credits = loginResponse.getCredits();
             System.out.printf("""
                     ===================================================================================
                     Name: %s %s                                                      
                     Email: %s
                     Role: %s
-                                    
+                    Credits: %s                                    
                                                        Welcome User  
                                     
                                                     [1] View Products
@@ -117,16 +119,17 @@ public class Main {
                                                     [3] Add to Cart
                                                     [4] Remove to Cart 
                                                     [5] Checkout
-                                                    [6] Logout
+                                                    [6] Add Credits
+                                                    [7] Logout
                                     
                                     
                     ===================================================================================
-                    """, firstName, lastName, email, role);
+                    """, firstName, lastName, email, role, credits);
 
-            OperationDto operationDto = inputOperation(6);
+            OperationDto operationDto = inputOperation(7);
             if (operationDto.isValid()) continue;
 
-            if (operationDto.getOperation() == 6) break;
+            if (operationDto.getOperation() == 7) break;
             process(operationDto.getOperation(), Role.USER, loginResponse.getEmail());
         }
     }
@@ -164,10 +167,13 @@ public class Main {
                     removeToCart(userEmail);
                     break;
                 case 5:
-                    checkout();
+                    checkout(userEmail);
+                    break;
+                case 6:
+                    addCredits(userEmail);
+                    break;
                 default:
                     throw new IllegalStateException("Unexpected value: " + operation);
-
             }
         } else {
             switch (operation) {
@@ -315,7 +321,8 @@ public class Main {
         }
     }
 
-    private static void getAllProductsFromCart(String userEmail) {
+    private static BigDecimal[] getAllProductsFromCart(String userEmail) {
+        final BigDecimal[] totalPrice = {BigDecimal.ZERO};
         try {
             System.out.println("""
                     ===========================================
@@ -323,7 +330,6 @@ public class Main {
                     ===========================================
                     """);
             List<Product> products = cartController.findAllProductsFromCart(userEmail);
-            final BigDecimal[] totalPrice = {BigDecimal.ZERO};
             Map<Product, Integer> productsMap = new HashMap<>();
 
             products.forEach(p -> productsMap.put(p, productsMap.getOrDefault(p, 0) + 1));
@@ -339,6 +345,7 @@ public class Main {
         } catch (Exception e) {
             log.error(e.getMessage());
         }
+        return new BigDecimal[]{totalPrice[0]};
     }
 
     private static void addToCart(String userEmail) {
@@ -407,10 +414,66 @@ public class Main {
         }
     }
 
-    private static void checkout() {
-        // TODO: Subtract the quantity of products based on the number of products checkout by the user
+    private static void checkout(String userEmail) {
+        boolean checkoutSuccessful = false;
+
+        scanner.nextLine();
+        while (!checkoutSuccessful) {
+            BigDecimal[] totalPrice = getAllProductsFromCart(userEmail);
+            try {
+                System.out.println("""
+                        ===============================
+                                   Checkout
+                        ===============================        
+                        """);
+                System.out.print("Are you sure you want to checkout [Y/N]: ");
+                char answer = scanner.next().charAt(0);
+                if (answer == 'y' || answer == 'Y') {
+                    cartController.checkout(userEmail, totalPrice);
+                    log.info("Checked out the product successfully");
+                }
+                checkoutSuccessful = true;
+            } catch (Exception e) {
+                log.error(e.getMessage());
+                scanner.nextLine();
+                System.out.print("\n\nDo you want to exit [Y/N]: ");
+                char answer = scanner.next().charAt(0);
+                if (answer == 'y' || answer == 'Y') {
+                    checkoutSuccessful = true;
+                }
+                scanner.nextLine();
+            }
+        }
     }
 
+    private static void addCredits(String userEmail) {
+        boolean addCreditsSuccessful = false;
+
+        scanner.nextLine();
+        while (!addCreditsSuccessful) {
+            try {
+                System.out.println("""
+                        ===============================
+                                  Add Credits
+                        ===============================        
+                        """);
+                System.out.print("Enter credits: ");
+                BigDecimal credits = scanner.nextBigDecimal();
+                cartController.addCredits(userEmail, credits);
+                log.info("Credits added successfully");
+                addCreditsSuccessful = true;
+            } catch (Exception e) {
+                log.error(e.getMessage());
+                scanner.nextLine();
+                System.out.print("\n\nDo you want to exit [Y/N]: ");
+                char answer = scanner.next().charAt(0);
+                if (answer == 'y' || answer == 'Y') {
+                    addCreditsSuccessful = true;
+                }
+                scanner.nextLine();
+            }
+        }
+    }
 
     private static void login() {
         boolean loginSuccessful = false;
@@ -432,7 +495,7 @@ public class Main {
                 if (loginResponse.getRole().equals(Role.ADMIN)) {
                     adminView(loginResponse);
                 } else {
-                    userView(loginResponse);
+                    userView(loginRequest);
                 }
                 loginSuccessful = true;
             } catch (Exception e) {

@@ -5,6 +5,8 @@ import com.ilacad.entity.User;
 import com.ilacad.enums.Role;
 import lombok.RequiredArgsConstructor;
 
+import java.math.BigDecimal;
+
 @RequiredArgsConstructor
 public class AdminSeeder {
 
@@ -17,6 +19,7 @@ public class AdminSeeder {
             user.setFirstName("John Christopher");
             user.setLastName("Ilacad");
             user.setEmail(adminEmail);
+            user.setCredits(BigDecimal.ZERO);
             user.setPassword("Password123!");
             user.setRole(Role.ADMIN);
             userDao.insertUser(user);

@@ -3,6 +3,7 @@ package com.ilacad.dao.impl;
 import com.ilacad.dao.CartDao;
 import com.ilacad.entity.Cart;
 import com.ilacad.entity.Product;
+import com.ilacad.exception.CartNotFoundException;
 import com.ilacad.util.JPAUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
@@ -80,5 +81,26 @@ public class CartDaoImpl implements CartDao {
 
         Long count = query.getSingleResult();
         return count > 0;
+    }
+
+    @Override
+    public void removeAllProductsFromCart(Long cartId) {
+        EntityManager entityManager = JPAUtil.getEntityManagerFactory().createEntityManager();
+        try {
+            entityManager.getTransaction().begin();
+
+            Cart managedCart = entityManager.find(Cart.class, cartId);
+            if (managedCart == null) {
+                throw new CartNotFoundException(cartId);
+            }
+
+            managedCart.getProducts().clear();
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            throw new RuntimeException("Error removing products from cart: " + e.getMessage());
+        } finally {
+            entityManager.close();
+        }
     }
 }
