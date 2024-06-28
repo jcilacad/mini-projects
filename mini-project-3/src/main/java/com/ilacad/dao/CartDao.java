@@ -16,4 +16,6 @@ public interface CartDao {
     void removeProductFromCart(Cart cart, Long productId, int numberOfItems);
 
     boolean existsById(Long id);
+
+    void removeAllProductsFromCart(Long cartId);
 }

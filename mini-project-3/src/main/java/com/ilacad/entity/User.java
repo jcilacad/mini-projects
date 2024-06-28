@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @Entity
@@ -31,6 +33,9 @@ public class User extends Auditable {
 
     @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(nullable = false)
+    private BigDecimal credits;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

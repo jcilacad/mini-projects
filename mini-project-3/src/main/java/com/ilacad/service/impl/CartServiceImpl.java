@@ -6,13 +6,11 @@ import com.ilacad.dao.UserDao;
 import com.ilacad.entity.Cart;
 import com.ilacad.entity.Product;
 import com.ilacad.entity.User;
-import com.ilacad.exception.CartNotFoundException;
-import com.ilacad.exception.ProductNotFoundException;
-import com.ilacad.exception.ProductQuantityExceededException;
-import com.ilacad.exception.UserNotFoundException;
+import com.ilacad.exception.*;
 import com.ilacad.service.CartService;
 import lombok.RequiredArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -71,5 +69,29 @@ public class CartServiceImpl implements CartService {
         cartDao.removeProductFromCart(cart, productId, numberOfItems);
         product.setQuantity(product.getQuantity() + numberOfItems);
         productDao.updateProduct(productId, product);
+    }
+
+    @Override
+    public void updateCredits(String userEmail, BigDecimal credits) {
+        User user = userDao.findUserByEmail(userEmail)
+                .orElseThrow(() -> new UserNotFoundException(userEmail));
+
+        BigDecimal newCredits = user.getCredits().add(credits);
+        userDao.updateCredits(user.getId(), newCredits);
+    }
+
+    @Override
+    public void checkout(String userEmail, BigDecimal[] totalPrice) {
+        User user = userDao.findUserByEmail(userEmail)
+                .orElseThrow(() -> new UserNotFoundException(userEmail));
+
+        BigDecimal credits = user.getCredits();
+        if (totalPrice[0].compareTo(credits) == 1) {
+            throw new InsufficientCreditsException(credits);
+        }
+
+        BigDecimal newCredits = user.getCredits().subtract(totalPrice[0]);
+        userDao.updateCredits(user.getId(), newCredits);
+        cartDao.removeAllProductsFromCart(user.getCart().getId());
     }
 }
