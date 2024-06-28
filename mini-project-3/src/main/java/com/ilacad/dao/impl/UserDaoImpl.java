@@ -37,7 +37,7 @@ public class UserDaoImpl implements UserDao {
         entityManager.getTransaction().begin();
 
         TypedQuery<Boolean> query = entityManager.createQuery(
-                "SELECT COUNT(s) > 0 FROM Student s WHERE s.email = :email", Boolean.class);
+                "SELECT COUNT(u) > 0 FROM User u WHERE u.email = :email", Boolean.class);
         query.setParameter("email", email);
         query.setMaxResults(1);
 
