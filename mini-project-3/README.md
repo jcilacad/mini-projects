@@ -48,18 +48,18 @@ mvn clean install exec:java
 
 ### Admin / Seller Actions
 
-- **Add Product**: Admins or sellers can add new books to the system.
-- **Update Product**: Modify existing book details.
-- **View Products**: Browse the available book collection.
-- **Delete Product**: Remove books from the inventory.
+- **Add Product**: Admins or sellers can add new products to the system.
+- **Update Product**: Modify existing product details.
+- **View Products**: Browse the available product collection.
+- **Delete Product**: Remove product from the list.
 - **Logout**: Exit the system.
 
 ### User / Buyer Actions
 
-- **View Available Products**: See the list of available books.
-- **View Products From Cart**: Review books in the cart.
-- **Add to Cart**: Add books to the cart.
-- **Remove from Cart**: Remove books from the cart.
+- **View Available Products**: See the list of available products.
+- **View Products From Cart**: Review products in the cart.
+- **Add to Cart**: Add product to the cart.
+- **Remove from Cart**: Remove product from the cart.
 - **Checkout**: Complete the purchase.
 - **Add Credits**: Add credits to the account.
 - **Logout**: Log out of the system.
