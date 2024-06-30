@@ -114,7 +114,7 @@ public class Main {
                     Credits: %s                                    
                                                        Welcome User  
                                     
-                                                    [1] View Products
+                                                    [1] View Available Products
                                                     [2] View Products From Cart
                                                     [3] Add to Cart
                                                     [4] Remove to Cart 

@@ -27,11 +27,11 @@ public class UserServiceTest {
     @InjectMocks
     private UserServiceImpl userService;
 
-    @Mock
-    private UserDao userDao;
+    @InjectMocks
+    private User user;
 
     @Mock
-    private User user;
+    private UserDao userDao;
 
     @Test
     void testRegister() {

@@ -62,6 +62,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public LoginResponse login(LoginRequest loginRequest) {
+        Set<ConstraintViolation<LoginRequest>> violations = validator.validate(loginRequest);
+        if (!violations.isEmpty()) {
+            Map<String, String> errors = new HashMap<>();
+            violations.forEach(v -> {
+                String fieldName = v.getPropertyPath().toString();
+                String errorMessage = v.getMessage();
+                errors.put(fieldName, errorMessage);
+            });
+            throw new InvalidInputException(errors);
+        }
+
         User existingUser = userDao.findUserByEmail(loginRequest.getEmail())
                 .orElseThrow(() -> new UserNotFoundException(loginRequest.getEmail()));
         String[] mutableHash = new String[1];
