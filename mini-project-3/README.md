@@ -28,10 +28,22 @@ Create a database named "ecommerce_db" using the following command:
 ```sql
 CREATE DATABASE ecommerce_db
 ```
-
 3. **Navigate to the `mini-project-3` package.**
 
-4. **Run as standalone**
+4. **Configure the 'Persistence.xml' File**
+
+   - Replace the `<USERNAME>` and `<PASSWORD>` placeholders with your actual database username and password. You can find the 'Persistence.xml' file in the resources folder.
+
+     ```properties
+     <property name="jakarta.persistence.jdbc.user" value="your_username_here" />
+     <property name="jakarta.persistence.jdbc.password" value="your_password_here" />
+     ```
+
+5. **Set the Admin Information**
+
+   - Update the admin information in the `AdminSeeder` class located in the `bootstrap` package.
+
+6. **Run as standalone**
 
 Use the following command to run the application:
 ```bash
